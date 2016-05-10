@@ -49,7 +49,7 @@ class BikesController extends RootController{
          $modelModel = new ModelModel();
          $bike['param_link_model'] =$modelModel->getModelByParamLinkModelId($bike['param_link_model_id']);
          $merchantsModel = new MerchantsModel();
-         $bike['merchant '] = $merchantsModel->getMerchantByMerchantNum($bike['merchant_num']);
+         $bike['merchant'] = $merchantsModel->getMerchantByMerchantNum($bike['merchant_num']);
          print_r(json_encode($bike));
        }else if($_SERVER['REQUEST_METHOD']=="DELETE"){
          Auth::checkAutch();
