@@ -93,6 +93,7 @@ class BikesController extends RootController{
       $data = array();
       foreach ($files as $file => $info) {
         $filename = md5($info['name'].time().$file).'.'.pathinfo($info['name'], PATHINFO_EXTENSION);
+        //$filename = $info['name'];
         $key = '/www/upload/'.$filename;
         $upload->addFilter('Rename',$key);
         //$upload->addValidator('Size', false, array('max' => 2097152));
@@ -104,28 +105,26 @@ class BikesController extends RootController{
            $result['action']= "failed";
         }
         $upload->receive($file);
+        $result['filename'] = $filename;
       }
       $result['action'] = "success";
       print_r(json_encode($result));
    }
 
-
- 
-
    // /bikes/{id}/images
    public function imagesAction(){
-    if($_SERVER['REQUEST_METHOD']=='GET'){
+      if($_SERVER['REQUEST_METHOD']=='GET'){
         $id = $this->getRequest()->getParam('id');
         $imagesModel = new ImagesModel();
         $result = $imagesModel->getImagesByBikeId($id);
         print_r(json_encode($result));
       }else{
-        Auth::checkAutch();
+        $data = Auth::checkAutch();
         $sysconfigsModel = new SysconfigsModel();
         $images_base_url = $sysconfigsModel->getImagesBaseUrl();
-        $_POST['image_url'] = $images_base_url+$_POST['name'];
+        $data['image_url'] = $images_base_url.$data['name'];
         $imagesModel = new ImagesModel();
-        $result = $imagesModel->addImage($_POST);
+        $result = $imagesModel->addImage($data);
         if($result){
           $arr['action'] = 'success';
         }else{
