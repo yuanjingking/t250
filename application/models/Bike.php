@@ -107,7 +107,7 @@ die();
     public function getSamepriceByPriceSamePriceScale($price,$same_price_scale){
       $same_price_left = $price * (1 - $same_price_scale);
       $same_price_right = $price * (1 + $same_price_scale);
-      $sql = "SELECT *  FROM `moto_bikes` WHERE price > $same_price_left and price < $same_price_right";
+$sql = "SELECT mb.id, mb.number, mb.name, mb.year, mb.brand, mb.real_KM, mb.price, mb.merchant_num, mb.sale_state, mb.site, mb.create_time, mi.image_url  FROM `moto_bikes` AS mb	LEFT JOIN `moto_images` AS mi ON mb.id = mi.moto_bike_id WHERE price > $same_price_left and price < $same_price_right AND mi.category=1 and mi.main_pic=1 ORDER BY mb.create_time DESC";
       $result = $this->db->query($sql);
       $data = $result->fetchAll();
       return $data;
@@ -116,7 +116,7 @@ die();
     public function getSamelevelByDisplacementSameLevelScaleCategoryId($displacement,$same_level_scale,$category_id){
       $same_level_left = $displacement  * (1 - $same_level_scale);
       $same_level_right = $displacement  * (1 + $same_level_scale);
-      $sql = "SELECT *  FROM `moto_bikes` WHERE displacement > $same_level_left and displacement < $same_level_right and category_id=$category_id";
+$sql = "SELECT mb.id, mb.number, mb.name, mb.year, mb.brand, mb.real_KM, mb.price, mb.merchant_num, mb.sale_state, mb.site, mb.create_time, mi.image_url  FROM `moto_bikes` AS mb LEFT JOIN `moto_images` AS mi ON mb.id = mi.moto_bike_id WHERE displacement > $same_level_left and displacement < $same_level_right and category_id=$category_id AND mi.category=1 and mi.main_pic=1 ORDER BY mb.create_time DESC";
       $result = $this->db->query($sql);
       $data = $result->fetchAll();
       return $data;
