@@ -15,9 +15,9 @@ class BikesController extends RootController{
          $sysconfigsModel = new SysconfigsModel();
          $same_price_scale = $sysconfigsModel->getSamePriceScale();
          $same_level_scale = $sysconfigsModel->getSameLevelScale();
-         $bike['sameprice'] = $bikeModel->getSamepriceByPriceSamePriceScale($bike['price'],$same_price_scale);
+         $bike['sameprice'] = $bikeModel->getSamepriceByPriceSamePriceScale($id, $bike['price'],$same_price_scale);
 
-         $bike['samelevel'] = $bikeModel->getSamelevelByDisplacementSameLevelScaleCategoryId($bike['displacement'],$same_level_scale,$bike['category_id']);
+         $bike['samelevel'] = $bikeModel->getSamelevelByDisplacementSameLevelScaleCategoryId($id,$bike['displacement'],$same_level_scale,$bike['category_id']);
          $imagesModel = new ImagesModel();
          $bike['image_url'] = $imagesModel->getImageUrlByBikeId($bike['id']);
 
