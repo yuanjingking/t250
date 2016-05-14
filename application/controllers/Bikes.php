@@ -29,27 +29,7 @@ class BikesController extends RootController{
        }else if($_SERVER['REQUEST_METHOD']=='PUT'){
          $data = Auth::checkAutch();
          $bikeModel->updateBikeById($id,$data);
-
-         //查询开始
          $bike = $bikeModel->getBakeById($id);
-         if(is_null($bike['param_link_model_id'])){
-           $bike['param_link_model_id'] = 0;
-         }
-         $bike['price_range_min'] = $bikeModel->priceRangeMinByParamLinkModelId($bike['param_link_model_id']);
-         $bike['price_range_max'] = $bikeModel->priceRangeMaxByParamLinkModelId($bike['param_link_model_id']);
-         $sysconfigsModel = new SysconfigsModel();
-         $same_price_scale = $sysconfigsModel->getSamePriceScale();
-         $same_level_scale = $sysconfigsModel->getSameLevelScale();
-         $bike['sameprice'] = $bikeModel->getSamepriceByPriceSamePriceScale($bike['price'],$same_price_scale);
-
-         $bike['samelevel'] = $bikeModel->getSamelevelByDisplacementSameLevelScaleCategoryId($bike['displacement'],$same_level_scale,$bike['category_id']);
-         $imagesModel = new ImagesModel();
-         $bike['image_new'] = $imagesModel->getImageUrlByBikeId($bike['id']);
-
-         $modelModel = new ModelModel();
-         $bike['param_link_model'] =$modelModel->getModelByParamLinkModelId($bike['param_link_model_id']);
-         $merchantsModel = new MerchantsModel();
-         $bike['merchant'] = $merchantsModel->getMerchantByMerchantNum($bike['merchant_num']);
          print_r(json_encode($bike));
        }else if($_SERVER['REQUEST_METHOD']=="DELETE"){
          Auth::checkAutch();
