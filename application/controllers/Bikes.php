@@ -43,7 +43,7 @@ class BikesController extends RootController{
    public function indexAction(){
       $bikeModel = new BikeModel();
       if($_SERVER['REQUEST_METHOD']=='GET'){
-  		   $result  = $bikeModel->getBikes();
+  		   $result  = $bikeModel->getBikes($_GET);
    		   echo json_encode($result);
       }else{
          Auth::checkAutch();

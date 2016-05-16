@@ -17,16 +17,58 @@
 
 
     
-    public function getBikes($limit=NULL){
-    	$sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.site, a.create_time, b.image_url
+//     public function getBikes($limit=NULL){
+//     	$sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.site, a.create_time, b.image_url
+// FROM
+//   `moto_bikes` AS a
+// LEFT JOIN
+//   `moto_images` AS b ON a.id = b.moto_bike_id and b.category=1 and b.main_pic=1
+// ORDER BY a.create_time DESC";
+// 		$result = $this->db->query($sql);
+// 		$bikes = $result->fetchAll();
+// 		return $bikes;
+//     }
+
+     public function getBikes($where=null){
+      if(!is_null($where))
+      extract($where);
+      $sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.site, a.create_time, b.image_url
 FROM
   `moto_bikes` AS a
 LEFT JOIN
   `moto_images` AS b ON a.id = b.moto_bike_id and b.category=1 and b.main_pic=1
-ORDER BY a.create_time DESC";
-		$result = $this->db->query($sql);
-		$bikes = $result->fetchAll();
-		return $bikes;
+WHERE 1=1";
+      if(isset($content)){
+        $sql .= " and a.number like '%$content%' or REPLACE(a.name, ' ', '') like '%$content%' ";
+      }
+      if(isset($price_min)){
+        $sql .= " a.price > $price_min ";
+      }
+      if(isset($price_max)){
+        $sql .= " a.price > $price_max ";
+      }
+      if(isset($brand_id)){
+        $sql .= " a.brand_id = $brand_id ";
+      }
+      if(isset($category_id)){
+        $sql .= " a.category_id = $category_id ";
+      }
+      if(isset($displacement_min)){
+        $sql .= " a.displacement > $displacement_min ";
+      }
+      if(isset($displacement_max)){
+        $sql .= " a.displacement > $displacement_max ";
+      }
+      if(isset($year_min)){
+        $sql .= " a.year > $year_min ";
+      }
+      if(isset($year_max)){
+        $sql .= " a.year > $year_max ";
+      }
+      $sql .=" ORDER BY a.create_time DESC";
+      $result = $this->db->query($sql);
+      $bikes = $result->fetchAll();
+      return $bikes;
     }
 
     /*
