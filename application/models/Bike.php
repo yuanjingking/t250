@@ -33,11 +33,11 @@
       if(!is_null($where))
       extract($where);
       $sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.site, a.create_time, b.image_url
-FROM
-  `moto_bikes` AS a
-LEFT JOIN
-  `moto_images` AS b ON a.id = b.moto_bike_id and b.category=1 and b.main_pic=1
-WHERE 1=1";
+	FROM
+	  `moto_bikes` AS a
+	LEFT JOIN
+	  `moto_images` AS b ON a.id = b.moto_bike_id and b.category=1 and b.main_pic=1
+	WHERE 1=1";
       if(isset($content)){
         $sql .= " and a.number like '%$content%' or REPLACE(a.name, ' ', '') like '%$content%' ";
       }
