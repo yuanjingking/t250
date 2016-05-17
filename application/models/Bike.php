@@ -124,7 +124,7 @@ die();
       return $result;
     }
 
-    public function getBakeById($id){
+    public function getBikeById($id){
         $select = Yaf_Registry::get("db")->select();
         $select->from($this->_name,'*');
         $select->where("id = ?",$id);

@@ -6,7 +6,7 @@ class BikesController extends RootController{
        $bikeModel = new BikeModel();
    	   $id = $this->getRequest()->getParam('id');
        if($_SERVER['REQUEST_METHOD']=='GET'){
-         $bike = $bikeModel->getBakeById($id);
+         $bike = $bikeModel->getBikeById($id);
          if(is_null($bike['param_link_model_id'])){
            $bike['param_link_model_id'] = 0;
          }
@@ -29,7 +29,7 @@ class BikesController extends RootController{
        }else if($_SERVER['REQUEST_METHOD']=='PUT'){
          $data = Auth::checkAutch();
          $bikeModel->updateBikeById($id,$data);
-         $bike = $bikeModel->getBakeById($id);
+         $bike = $bikeModel->getBikeById($id);
          print_r(json_encode($bike));
        }else if($_SERVER['REQUEST_METHOD']=="DELETE"){
          Auth::checkAutch();
@@ -55,7 +55,7 @@ class BikesController extends RootController{
             }
             $result = $bikeModel->addBike($_POST);
             if(!$result['status']) throw new Exception($result['data']);
-            $bike = $bikeModel->getBakeById($result['data']);
+            $bike = $bikeModel->getBikeById($result['data']);
             print_r(json_encode($bike));
          }catch(Exception $e){
             print_r($e->getMessage());
