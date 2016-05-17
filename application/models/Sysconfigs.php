@@ -39,4 +39,11 @@
 		  $result =  Yaf_Registry::get("db")->fetchRow($select);
 		  return $result['content'];
     }
+    public function getShareBaseNumber(){
+    	$select = Yaf_Registry::get("db")->select();
+		  $select->from($this->_name,'*');
+		  $select->where("name = ?",'share_base_num');
+		  $result =  Yaf_Registry::get("db")->fetchRow($select);
+		  return $result['content'];
+    }
 }

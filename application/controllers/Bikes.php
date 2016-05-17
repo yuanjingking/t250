@@ -6,25 +6,35 @@ class BikesController extends RootController{
        $bikeModel = new BikeModel();
    	   $id = $this->getRequest()->getParam('id');
        if($_SERVER['REQUEST_METHOD']=='GET'){
+         $sysconfigsModel = new SysconfigsModel();
+         $same_price_scale = $sysconfigsModel->getSamePriceScale();
+         $same_level_scale = $sysconfigsModel->getSameLevelScale();
+
          $bike = $bikeModel->getBikeById($id);
          if(is_null($bike['param_link_model_id'])){
            $bike['param_link_model_id'] = 0;
          }
          $bike['price_range_min'] = $bikeModel->priceRangeMinByParamLinkModelId($bike['param_link_model_id']);
          $bike['price_range_max'] = $bikeModel->priceRangeMaxByParamLinkModelId($bike['param_link_model_id']);
-         $sysconfigsModel = new SysconfigsModel();
-         $same_price_scale = $sysconfigsModel->getSamePriceScale();
-         $same_level_scale = $sysconfigsModel->getSameLevelScale();
          $bike['sameprice'] = $bikeModel->getSamepriceByPriceSamePriceScale($id, $bike['price'],$same_price_scale);
-
          $bike['samelevel'] = $bikeModel->getSamelevelByDisplacementSameLevelScaleCategoryId($id,$bike['displacement'],$same_level_scale,$bike['category_id']);
+
          $imagesModel = new ImagesModel();
          $bike['image_url'] = $imagesModel->getImageUrlByBikeId($bike['id']);
 
          $modelModel = new ModelModel();
          $bike['param_link_model'] =$modelModel->getModelByParamLinkModelId($bike['param_link_model_id']);
+
          $merchantsModel = new MerchantsModel();
          $bike['merchant'] = $merchantsModel->getMerchantByMerchantNum($bike['merchant_num']);
+
+         //判断是否显示最低价
+         $wechat_user_id = $this->getRequest()->getParam('wechat_user_id');
+         if($this->checkoutShareClick($wechat_user_id, $id)){
+           $bike['min_price'] = '点击微信右上角分享后可查看';
+         }
+         
+
          print_r(json_encode($bike));
        }else if($_SERVER['REQUEST_METHOD']=='PUT'){
          $data = Auth::checkAutch();
@@ -128,6 +138,20 @@ class BikesController extends RootController{
         $imagesModel ->deleteImageById($id);
         $arr['action'] = 'success';
         print_r(json_encode($arr));
+      }
+   }
+
+   private function checkoutShareClick($wechat_user_id, $bike_id){
+      $bikeshareModel = new BikesharesModel();
+      $bike_share_click_num = $bikeshareModel->getBikeShareClickNum($wechat_user_id, $bike_id);
+
+      $sysconfigsModel = new SysconfigsModel();
+      $share_base_num =  $sysconfigsModel->getShareBaseNumber();
+
+      if($bike_share_click_num > $share_base_num){
+        return true;
+      }else{
+        return false;
       }
    }
 }
