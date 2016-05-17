@@ -29,11 +29,12 @@ class BikesController extends RootController{
          $bike['merchant'] = $merchantsModel->getMerchantByMerchantNum($bike['merchant_num']);
 
          //判断是否显示最低价
-         $wechat_user_id = $this->getRequest()->getParam('wechat_user_id');
-         if($this->checkoutShareClick($wechat_user_id, $id)){
-           $bike['min_price'] = '点击微信右上角分享后可查看';
+         if(isset($wechat_user_id)){
+           $wechat_user_id = $this->getRequest()->getParam('wechat_user_id');
+           if($this->checkoutShareClick($wechat_user_id, $id)){
+             $bike['min_price'] = '点击微信右上角分享后可查看';
+           }
          }
-         
 
          print_r(json_encode($bike));
        }else if($_SERVER['REQUEST_METHOD']=='PUT'){
