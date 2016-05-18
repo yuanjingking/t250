@@ -45,7 +45,7 @@
         $sql .= " and a.price > $price_min ";
       }
       if(isset($price_max)){
-        $sql .= " and a.price > $price_max ";
+        $sql .= " and a.price < $price_max ";
       }
       if(isset($brand_id)){
         $sql .= " and a.brand_id = $brand_id ";
@@ -57,13 +57,13 @@
         $sql .= " and a.displacement > $displacement_min ";
       }
       if(isset($displacement_max)){
-        $sql .= " and a.displacement > $displacement_max ";
+        $sql .= " and a.displacement < $displacement_max ";
       }
       if(isset($year_min)){
         $sql .= " and a.year > $year_min ";
       }
       if(isset($year_max)){
-        $sql .= " and a.year > $year_max ";
+        $sql .= " and a.year < $year_max ";
       }
       $sql .=" ORDER BY a.create_time DESC";
       $result = $this->db->query($sql);
