@@ -66,6 +66,10 @@
         $sql .= " and a.year < $year_max ";
       }
       $sql .=" ORDER BY a.create_time DESC";
+      
+      if(isset($limit)){
+        $sql .= " limit $offset,$limit";
+      }
       $result = $this->db->query($sql);
       $bikes = $result->fetchAll();
       return $bikes;
