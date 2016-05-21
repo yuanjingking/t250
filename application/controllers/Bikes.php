@@ -107,7 +107,7 @@ class BikesController extends RootController{
         $sysconfigsModel = new SysconfigsModel();
         $images_base_url = $sysconfigsModel->getImagesBaseUrl();
         $data['image_url'] = $images_base_url.$data['name'];
-        $data['image_thumb_url'] = $images_base_url.'thumbnail'.$data['name'];
+        $data['image_thumb_url'] = $images_base_url.'thumbnail/'.$data['name'];
         $imagesModel = new ImagesModel();
         $result = $imagesModel->addImage($data);
         if($result){
