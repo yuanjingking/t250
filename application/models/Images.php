@@ -21,6 +21,7 @@ class ImagesModel extends Zend_Db_Table_Abstract {
           $image['category'] = @$data['category'];
           $image['main_pic'] = @$data['main_pic'];
           $image['image_url'] = @$data['image_url'];
+          $image['image_thumb_url'] = @$data['image_thumb_url'];
           $this->insert($image);
           $result['status'] = true;
           $result['data'] = Yaf_Registry::get("db")->lastInsertId();
@@ -33,10 +34,17 @@ class ImagesModel extends Zend_Db_Table_Abstract {
   }
 
   public  function getImageUrlByBikeId($id){
-      $sql = " SELECT image_url  FROM `moto_images` WHERE moto_bike_id = $id and category=1 and main_pic=1";
+      $sql = " SELECT image_url FROM `moto_images` WHERE moto_bike_id = $id and category=1 and main_pic=1";
       $result = $this->db->query($sql);
       $data = $result->fetch();
       return $data['image_url'];
+  }
+
+  public  function getImageThumbUrlByBikeId($id){
+      $sql = " SELECT image_thumb_url  FROM `moto_images` WHERE moto_bike_id = $id and category=1 and main_pic=1";
+      $result = $this->db->query($sql);
+      $data = $result->fetch();
+      return $data['image_thumb_url'];
   }
   
   public function deleteImageById($id){

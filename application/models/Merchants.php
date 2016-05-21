@@ -15,7 +15,7 @@ class MerchantsModel extends Zend_Db_Table_Abstract {
   }
 
   public  function getMerchantByMerchantNum($merchant_num){
-       $sql = "  SELECT id, number, name from `moto_merchants` WHERE number = $merchant_num";
+       $sql = "  SELECT id, number, name from `moto_merchants` WHERE number = '$merchant_num'";
       $result = $this->db->query($sql);
       return $result->fetchAll();
   }
@@ -31,7 +31,7 @@ class MerchantsModel extends Zend_Db_Table_Abstract {
       try{
           $merchant['name'] = $data['name'];
           $merchant['phone'] = $data['phone'];
-          $merchant['number'] = 'm'.substr(date("Ymd"),2).rand(1000,9999);
+          $merchant['number'] = 'm'.substr(date("Ymd"),2).rand(100,999);
           $this->insert($merchant);
           $result['status'] = true;
           $result['data'] = Yaf_Registry::get("db")->lastInsertId();

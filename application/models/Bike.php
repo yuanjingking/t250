@@ -32,7 +32,7 @@
      public function getBikes($where=null){
 	if(!is_null($where))
 	extract($where);
-	$sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.site, a.create_time, b.image_url
+	$sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.site, a.create_time, b.image_url, b.image_thumb_url
 	FROM
 	  `moto_bikes` AS a
 	LEFT JOIN
@@ -153,7 +153,7 @@ die();
     public function getSamepriceByPriceSamePriceScale($bike_id,$price,$same_price_scale){
       $same_price_left = $price * (1 - $same_price_scale);
       $same_price_right = $price * (1 + $same_price_scale);
-      $sql = "SELECT mb.id, mb.number, mb.name, mb.year, mb.brand, mb.real_km, mb.price, mb.merchant_num, mb.sale_state, mb.site, mb.create_time, mi.image_url
+      $sql = "SELECT mb.id, mb.number, mb.name, mb.year, mb.brand, mb.real_km, mb.price, mb.merchant_num, mb.sale_state, mb.site, mb.create_time, mi.image_url, mi.image_thumb_url
 	  FROM `moto_bikes` AS mb
 	  LEFT JOIN `moto_images` AS mi ON mb.id = mi.moto_bike_id
 	  WHERE price > $same_price_left and price < $same_price_right and mb.id != $bike_id AND mi.category=1 and mi.main_pic=1 ORDER BY mb.create_time DESC";
@@ -165,7 +165,7 @@ die();
     public function getSamelevelByDisplacementSameLevelScaleCategoryId($bike_id, $displacement,$same_level_scale,$category_id){
       $same_level_left = $displacement  * (1 - $same_level_scale);
       $same_level_right = $displacement  * (1 + $same_level_scale);
-      $sql = "SELECT mb.id, mb.number, mb.name, mb.year, mb.brand, mb.real_km, mb.price, mb.merchant_num, mb.sale_state, mb.site, mb.create_time, mi.image_url 
+      $sql = "SELECT mb.id, mb.number, mb.name, mb.year, mb.brand, mb.real_km, mb.price, mb.merchant_num, mb.sale_state, mb.site, mb.create_time, mi.image_url, mi.image_thumb_url 
 	 FROM `moto_bikes` AS mb 
 	 LEFT JOIN `moto_images` AS mi ON mb.id = mi.moto_bike_id 
 	 WHERE displacement > $same_level_left and displacement < $same_level_right and category_id=$category_id and mb.id != $bike_id AND mi.category=1 and mi.main_pic=1 ORDER BY mb.create_time DESC";
