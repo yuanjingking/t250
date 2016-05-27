@@ -52,6 +52,19 @@ class ImagesModel extends Zend_Db_Table_Abstract {
       $this->delete($where);
   }
 
+  // 删除关联图片
+  public function deleteImageByBikeId($id){
+      $where = Yaf_Registry::get("db")->quoteInto('moto_bike_id = ?',$id);
+      $sql = " SELECT name FROM `moto_images` WHERE moto_bike_id = $id";
+      $result = $this->db->query($sql);
+      $rows = $result->fetchAll();
+      foreach($rows as $r){
+        $file = "/www/upload/".$r['name'];
+        unlink($file);
+      }
+      $this->delete($where);
+  }
+
   public function updateImageById($id,$data){
       $set['main_pic'] = @$data['main_pic'];
       $where[] = "id = $id ";

@@ -38,6 +38,10 @@ class BikesController extends RootController{
        }else if($_SERVER['REQUEST_METHOD']=="DELETE"){
          Auth::checkAutch();
          $bikeModel->deleteBikeById($id);
+	 // 删除关联图片
+         $imagesModel = new ImagesModel();
+         $imagesModel->deleteImageByBikeId($id);
+
          $arr['action'] = 'success';
          print_r(json_encode($arr));
        } 
