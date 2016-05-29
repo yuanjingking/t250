@@ -156,7 +156,7 @@ die();
       $sql = "SELECT mb.id, mb.number, mb.name, mb.year, mb.brand, mb.real_km, mb.price, mb.merchant_num, mb.sale_state, mb.site, mb.create_time, mi.image_url, mi.image_thumb_url
 	  FROM `moto_bikes` AS mb
 	  LEFT JOIN `moto_images` AS mi ON mb.id = mi.moto_bike_id
-	  WHERE price > $same_price_left and price < $same_price_right and mb.id != $bike_id AND mi.category=1 and mi.main_pic=1 ORDER BY mb.create_time DESC";
+	  WHERE price > $same_price_left and price < $same_price_right and mb.id != $bike_id AND mi.category=1 and mi.main_pic=1 ORDER BY mb.create_time DESC limit 0,12";
       $result = $this->db->query($sql);
       $data = $result->fetchAll();
       return $data;
@@ -168,7 +168,7 @@ die();
       $sql = "SELECT mb.id, mb.number, mb.name, mb.year, mb.brand, mb.real_km, mb.price, mb.merchant_num, mb.sale_state, mb.site, mb.create_time, mi.image_url, mi.image_thumb_url 
 	 FROM `moto_bikes` AS mb 
 	 LEFT JOIN `moto_images` AS mi ON mb.id = mi.moto_bike_id 
-	 WHERE displacement > $same_level_left and displacement < $same_level_right and category_id=$category_id and mb.id != $bike_id AND mi.category=1 and mi.main_pic=1 ORDER BY mb.create_time DESC";
+	 WHERE displacement > $same_level_left and displacement < $same_level_right and category_id=$category_id and mb.id != $bike_id AND mi.category=1 and mi.main_pic=1 ORDER BY mb.create_time DESC limit 0,12";
       $result = $this->db->query($sql);
       $data = $result->fetchAll();
       return $data;
