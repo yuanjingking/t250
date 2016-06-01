@@ -22,6 +22,7 @@ class ImagesModel extends Zend_Db_Table_Abstract {
           $image['main_pic'] = @$data['main_pic'];
           $image['image_url'] = @$data['image_url'];
           $image['image_thumb_url'] = @$data['image_thumb_url'];
+          $image['image_medium_url'] = @$data['image_medium_url'];
           $this->insert($image);
           $result['status'] = true;
           $result['data'] = Yaf_Registry::get("db")->lastInsertId();
@@ -48,20 +49,36 @@ class ImagesModel extends Zend_Db_Table_Abstract {
   }
   
   public function deleteImageById($id){
+      // 清除文件
+      $sql = " SELECT name FROM `moto_images` WHERE id = $id";
+      $result = $this->db->query($sql);
+      $row = $result->fetch();
+      $file = "/www/upload/".$row['name'];
+      unlink($file);
+      $image_medium_file = "/www/upload/medium/".$row['name'];
+      unlink($image_medium_file);
+      $image_thumb_file = "/www/upload/thumbnail/".$row['name'];
+      unlink($image_thumb_file);
+
       $where = Yaf_Registry::get("db")->quoteInto('id = ?',$id);
       $this->delete($where);
   }
 
   // 删除关联图片
   public function deleteImageByBikeId($id){
-      $where = Yaf_Registry::get("db")->quoteInto('moto_bike_id = ?',$id);
       $sql = " SELECT name FROM `moto_images` WHERE moto_bike_id = $id";
       $result = $this->db->query($sql);
       $rows = $result->fetchAll();
       foreach($rows as $r){
         $file = "/www/upload/".$r['name'];
         unlink($file);
+        $image_medium_file = "/www/upload/medium/".$r['name'];
+        unlink($image_medium_file);
+        $image_thumb_file = "/www/upload/thumbnail/".$r['name'];
+        unlink($image_thumb_file);
       }
+
+      $where = Yaf_Registry::get("db")->quoteInto('moto_bike_id = ?',$id);
       $this->delete($where);
   }
 
