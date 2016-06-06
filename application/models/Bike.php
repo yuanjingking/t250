@@ -32,11 +32,13 @@
      public function getBikes($where=null){
 	if(!is_null($where))
 	extract($where);
-	$sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.site, a.create_time, b.image_url, b.image_medium_url, b.image_thumb_url
-	FROM
-	  `moto_bikes` AS a
-	LEFT JOIN
-	  `moto_images` AS b ON a.id = b.moto_bike_id and b.category=1 and b.main_pic=1
+	$sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.site, a.create_time, b.image_thumb_url, c.image_thumb_url as origin_image_thumb_url
+        FROM
+          `moto_bikes` AS a
+        LEFT JOIN
+          `moto_images` AS b ON a.id = b.moto_bike_id and b.category=1 and b.main_pic=1
+        LEFT JOIN
+          `moto_images` AS c ON a.id = c.moto_bike_id and c.category=0 and c.main_pic=1
 	WHERE 1=1";
       if(isset($content)){
         $sql .= " and a.number like '%$content%' or REPLACE(a.name, ' ', '') like '%$content%' ";
@@ -69,6 +71,8 @@
       
       if(isset($limit)){
         $sql .= " limit $offset,$limit";
+      } else {
+        $sql .= " limit 0,30";
       }
       $result = $this->db->query($sql);
       $bikes = $result->fetchAll();
