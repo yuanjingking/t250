@@ -56,16 +56,16 @@
         $sql .= " and a.category_id = $category_id ";
       }
       if(isset($displacement_min)){
-        $sql .= " and a.displacement > $displacement_min ";
+        $sql .= " and a.displacement >= $displacement_min ";
       }
       if(isset($displacement_max)){
-        $sql .= " and a.displacement < $displacement_max ";
+        $sql .= " and a.displacement <= $displacement_max ";
       }
       if(isset($year_min)){
-        $sql .= " and a.year > $year_min ";
+        $sql .= " and a.year >= $year_min ";
       }
       if(isset($year_max)){
-        $sql .= " and a.year < $year_max ";
+        $sql .= " and a.year <= $year_max ";
       }
       $sql .=" ORDER BY a.create_time DESC";
       
