@@ -41,7 +41,11 @@
           `moto_images` AS c ON a.id = c.moto_bike_id and c.category=0 and c.main_pic=1
 	WHERE 1=1";
       if(isset($content)){
-        $sql .= " and a.number like '%$content%' or REPLACE(a.name, ' ', '') like '%$content%' ";
+        $content = trim($content);
+        if (!empty($content)) {
+	   $content = urldecode($content);
+           $sql .= " and a.number like '%$content%' or REPLACE(a.name, ' ', '') like '%$content%' ";
+        }
       }
       if(isset($price_min)){
         $sql .= " and a.price > $price_min ";
