@@ -4,7 +4,7 @@ class BikesController extends RootController{
 
    public function infoAction(){
        $bikeModel = new BikeModel();
-   	   $id = $this->getRequest()->getParam('id');
+       $id = $this->getRequest()->getParam('id');
        if($_SERVER['REQUEST_METHOD']=='GET'){
          $sysconfigsModel = new SysconfigsModel();
          $same_price_scale = $sysconfigsModel->getSamePriceScale();
