@@ -32,7 +32,7 @@
      public function getBikes($where=null){
 	if(!is_null($where))
 	extract($where);
-	$sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.kanjia_activity, a.site, a.create_time, b.image_thumb_url, c.image_thumb_url as origin_image_thumb_url
+	$sql = "SELECT a.id, a.number, a.name, a.year, a.brand, a.real_km, a.price, a.merchant_num, a.sale_state, a.bargain_activity, a.site, a.create_time, b.image_thumb_url, c.image_thumb_url as origin_image_thumb_url
         FROM
           `moto_bikes` AS a
         LEFT JOIN
@@ -58,6 +58,9 @@
       }
       if(isset($category_id)){
         $sql .= " and a.category_id = $category_id ";
+      }
+      if(isset($bargain_activity)){
+        $sql .= " and a.bargain_activity = $bargain_activity ";
       }
       if(isset($displacement_min)){
         $sql .= " and a.displacement >= $displacement_min ";
@@ -123,7 +126,7 @@ die();
           $bike['diy'] = @$data['diy'];
           $bike['merchant_num'] = @$data['merchant_num'];
           $bike['sale_state'] = @$data['sale_state'];
-          $bike['kanjia_activity'] = @$data['kanjia_activity'];
+          $bike['bargain_activity'] = @$data['bargain_activity'];
           $bike['site'] = @$data['site'];
           $bike['number'] = substr(date("Ymd"),2).rand(1000,9999);
           $this->insert($bike);
@@ -199,7 +202,7 @@ die();
         $set['diy'] = @$data['diy'];
         $set['merchant_num'] = @$data['merchant_num'];
         $set['sale_state'] = @$data['sale_state'];
-        $set['kanjia_activity'] = @$data['kanjia_activity'];
+        $set['bargain_activity'] = @$data['bargain_activity'];
         $set['site'] = @$data['site'];
         $where[] = "id = $id ";
         return $this->update($set,$where);
